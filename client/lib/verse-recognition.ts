@@ -472,67 +472,71 @@ export function recognizeVerseFromText(
   text: string,
   preferredTranslation: string = "NIV",
 ): VerseMatch | null {
-  if (!text || text.trim().length < 3) return null;
+  if (!text || text.trim().length < 2) return null;
 
   const matches: Array<{
     verse: (typeof verseDatabase)[0];
     confidence: number;
     details: {
-      textSimilarity: number;
+      simpleMatch: number;
+      advancedMatch: number;
       keywordMatch: number;
-      translationMatch: number;
     };
   }> = [];
 
-  // Try matching against all translations for better accuracy
+  console.log("Searching for:", text);
+
+  // Try matching against all translations with multiple algorithms
   for (const verse of verseDatabase) {
-    let bestTranslationMatch = 0;
-    let bestTextSimilarity = 0;
+    let bestSimpleMatch = 0;
+    let bestAdvancedMatch = 0;
 
     // Test against all available translations
     for (const [translation, verseText] of Object.entries(verse.text)) {
-      const textSimilarity = calculateSimilarity(text, verseText);
-      if (textSimilarity > bestTextSimilarity) {
-        bestTextSimilarity = textSimilarity;
-        bestTranslationMatch = translation === preferredTranslation ? 1.1 : 1.0;
-      }
+      const simpleMatch = calculateSimpleMatch(text, verseText);
+      const advancedMatch = calculateSimilarity(text, verseText);
+
+      bestSimpleMatch = Math.max(bestSimpleMatch, simpleMatch);
+      bestAdvancedMatch = Math.max(bestAdvancedMatch, advancedMatch);
     }
 
     const keywordMatch = calculateKeywordMatch(text, verse);
 
-    // Enhanced confidence calculation with translation preference
-    const confidence =
-      (bestTextSimilarity * 0.5 +
-        keywordMatch * 0.4 +
-        (bestTranslationMatch - 1) * 10) *
-      bestTranslationMatch;
+    // More lenient confidence calculation
+    const confidence = Math.max(
+      bestSimpleMatch * 0.6 + keywordMatch * 0.4,
+      bestAdvancedMatch * 0.4 + keywordMatch * 0.6,
+      bestSimpleMatch * 0.8 + bestAdvancedMatch * 0.2,
+    );
 
     matches.push({
       verse,
       confidence,
       details: {
-        textSimilarity: bestTextSimilarity,
+        simpleMatch: bestSimpleMatch,
+        advancedMatch: bestAdvancedMatch,
         keywordMatch,
-        translationMatch: bestTranslationMatch,
       },
     });
+
+    console.log(
+      `${verse.reference}: simple=${bestSimpleMatch.toFixed(1)}, advanced=${bestAdvancedMatch.toFixed(1)}, keyword=${keywordMatch.toFixed(1)}, final=${confidence.toFixed(1)}`,
+    );
   }
 
-  // Sort by confidence and apply additional filters
+  // Sort by confidence
   matches.sort((a, b) => b.confidence - a.confidence);
 
   const bestMatch = matches[0];
-  const secondBest = matches[1];
 
-  // Require minimum confidence and significant gap from second best
-  const minConfidence = 25;
-  const minGap = 10;
+  // Much more lenient thresholds for speech recognition
+  const minConfidence = 8; // Lowered from 25
 
-  if (
-    bestMatch &&
-    bestMatch.confidence > minConfidence &&
-    (!secondBest || bestMatch.confidence - secondBest.confidence > minGap)
-  ) {
+  if (bestMatch && bestMatch.confidence > minConfidence) {
+    console.log(
+      `Match found: ${bestMatch.verse.reference} with confidence ${bestMatch.confidence.toFixed(1)}`,
+    );
+
     return {
       reference: bestMatch.verse.reference,
       text:
@@ -541,9 +545,13 @@ export function recognizeVerseFromText(
         ] || bestMatch.verse.text.NIV,
       translation: preferredTranslation,
       context: bestMatch.verse.context,
-      confidence: Math.min(95, Math.round(bestMatch.confidence)), // Cap at 95%
+      confidence: Math.min(95, Math.round(bestMatch.confidence)),
     };
   }
 
+  console.log(
+    "No match found. Best confidence was:",
+    bestMatch?.confidence?.toFixed(1) || "N/A",
+  );
   return null;
 }
