@@ -204,25 +204,28 @@ const searchCache = new Map<string, VerseMatch | null>();
 function buildSearchIndex(): SearchIndex {
   if (searchIndex) return searchIndex;
 
-  console.log('Building search index...');
+  console.log("Building search index...");
 
   const wordToVerses = new Map<string, number[]>();
   const keywordToVerses = new Map<string, number[]>();
   const verseTexts: string[][] = [];
-  const translations = ['NIV', 'ESV', 'KJV', 'NASB', 'NLT'];
+  const translations = ["NIV", "ESV", "KJV", "NASB", "NLT"];
 
   verseDatabase.forEach((verse, verseIndex) => {
     const verseTranslations: string[] = [];
 
     // Index all translations for this verse
     translations.forEach((translation) => {
-      const text = verse.text[translation as keyof typeof verse.text] || verse.text.NIV;
+      const text =
+        verse.text[translation as keyof typeof verse.text] || verse.text.NIV;
       const processedText = preprocessText(text);
       verseTranslations.push(processedText);
 
       // Index individual words
-      const words = processedText.split(/\s+/).filter(word => word.length > 2);
-      words.forEach(word => {
+      const words = processedText
+        .split(/\s+/)
+        .filter((word) => word.length > 2);
+      words.forEach((word) => {
         if (!wordToVerses.has(word)) {
           wordToVerses.set(word, []);
         }
@@ -236,7 +239,7 @@ function buildSearchIndex(): SearchIndex {
     verseTexts.push(verseTranslations);
 
     // Index keywords
-    verse.keywords.forEach(keyword => {
+    verse.keywords.forEach((keyword) => {
       if (!keywordToVerses.has(keyword)) {
         keywordToVerses.set(keyword, []);
       }
@@ -251,35 +254,49 @@ function buildSearchIndex(): SearchIndex {
     wordToVerses,
     keywordToVerses,
     verseTexts,
-    translations
+    translations,
   };
 
-  console.log(`Search index built: ${wordToVerses.size} unique words, ${keywordToVerses.size} keywords`);
+  console.log(
+    `Search index built: ${wordToVerses.size} unique words, ${keywordToVerses.size} keywords`,
+  );
   return searchIndex;
 }
 
 // Get candidate verses based on word overlap (much faster than checking all verses)
 function getCandidateVerses(text: string): number[] {
   const index = buildSearchIndex();
-  const words = preprocessText(text).split(/\s+/).filter(word => word.length > 2);
+  const words = preprocessText(text)
+    .split(/\s+/)
+    .filter((word) => word.length > 2);
   const candidateScores = new Map<number, number>();
 
   // Find verses that contain the input words
-  words.forEach(word => {
+  words.forEach((word) => {
     // Exact word matches
     if (index.wordToVerses.has(word)) {
-      index.wordToVerses.get(word)!.forEach(verseIndex => {
-        candidateScores.set(verseIndex, (candidateScores.get(verseIndex) || 0) + 2);
+      index.wordToVerses.get(word)!.forEach((verseIndex) => {
+        candidateScores.set(
+          verseIndex,
+          (candidateScores.get(verseIndex) || 0) + 2,
+        );
       });
     }
 
     // Partial word matches (for words > 3 characters)
     if (word.length > 3) {
       for (const [indexWord, verseIndices] of index.wordToVerses) {
-        if (indexWord.includes(word) || word.includes(indexWord) ||
-            (indexWord.length > 3 && indexWord.substring(0, 3) === word.substring(0, 3))) {
-          verseIndices.forEach(verseIndex => {
-            candidateScores.set(verseIndex, (candidateScores.get(verseIndex) || 0) + 1);
+        if (
+          indexWord.includes(word) ||
+          word.includes(indexWord) ||
+          (indexWord.length > 3 &&
+            indexWord.substring(0, 3) === word.substring(0, 3))
+        ) {
+          verseIndices.forEach((verseIndex) => {
+            candidateScores.set(
+              verseIndex,
+              (candidateScores.get(verseIndex) || 0) + 1,
+            );
           });
         }
       }
@@ -293,10 +310,10 @@ function getCandidateVerses(text: string): number[] {
     .map(([verseIndex]) => verseIndex);
 
   // If no good candidates, fall back to checking all verses
-  return sortedCandidates.length > 0 ? sortedCandidates : Array.from({ length: verseDatabase.length }, (_, i) => i);
+  return sortedCandidates.length > 0
+    ? sortedCandidates
+    : Array.from({ length: verseDatabase.length }, (_, i) => i);
 }
-
-];
 
 // More conservative text preprocessing for Bible verses
 function preprocessText(text: string): string {
@@ -432,7 +449,7 @@ function calculateKeywordMatch(
   verse: (typeof verseDatabase)[0],
 ): number {
   const textLower = recognizedText.toLowerCase();
-  const words = textLower.split(/\s+/).filter(word => word.length > 2);
+  const words = textLower.split(/\s+/).filter((word) => word.length > 2);
 
   let matchedKeywords = 0;
 
@@ -445,9 +462,13 @@ function calculateKeywordMatch(
     } else {
       // Check for partial matches in individual words
       for (const word of words) {
-        if (word.includes(keyword) || keyword.includes(word) ||
-            (word.length > 3 && keyword.length > 3 &&
-             word.substring(0, 3) === keyword.substring(0, 3))) {
+        if (
+          word.includes(keyword) ||
+          keyword.includes(word) ||
+          (word.length > 3 &&
+            keyword.length > 3 &&
+            word.substring(0, 3) === keyword.substring(0, 3))
+        ) {
           found = true;
           break;
         }
