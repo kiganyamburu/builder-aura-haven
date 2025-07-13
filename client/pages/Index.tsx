@@ -74,6 +74,10 @@ export default function Index() {
 
   const startRecording = async () => {
     try {
+      setError(null);
+      setLiveTranscript("");
+
+      // Start audio recording
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
@@ -94,10 +98,38 @@ export default function Index() {
         stream.getTracks().forEach((track) => track.stop());
       };
 
+      // Start speech recognition if supported
+      if (speechSupported) {
+        const SpeechRecognition =
+          window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognitionRef.current = recognition;
+
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "en-US";
+
+        recognition.onresult = (event) => {
+          let transcript = "";
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+          }
+          setLiveTranscript(transcript);
+        };
+
+        recognition.onerror = (event) => {
+          console.error("Speech recognition error:", event.error);
+          setError("Speech recognition error. Please try again.");
+        };
+
+        recognition.start();
+      }
+
       mediaRecorder.start();
       setIsRecording(true);
     } catch (error) {
       console.error("Error starting recording:", error);
+      setError("Could not access microphone. Please check permissions.");
     }
   };
 
@@ -105,6 +137,11 @@ export default function Index() {
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
+    }
+
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
     }
   };
 
