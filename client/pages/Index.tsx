@@ -102,7 +102,8 @@ export default function Index() {
       // Start speech recognition if supported
       if (speechSupported) {
         const SpeechRecognition =
-          window.SpeechRecognition || window.webkitSpeechRecognition;
+          (window as any).SpeechRecognition ||
+          (window as any).webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
         recognitionRef.current = recognition;
 
