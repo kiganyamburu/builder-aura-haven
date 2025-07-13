@@ -114,7 +114,7 @@ export default function Index() {
         recognition.interimResults = true;
         recognition.lang = "en-US";
         recognition.maxAlternatives = 3; // Get multiple alternatives
-        recognition.grammars = null; // Use default grammar for better general recognition
+        // Don't set grammars - use default for better general recognition
 
         let finalTranscript = "";
         let interimTranscript = "";
