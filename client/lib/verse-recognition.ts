@@ -317,59 +317,45 @@ function calculateSequenceMatch(words1: string[], words2: string[]): number {
   return minLength > 0 ? (matches / minLength) * 100 : 0;
 }
 
-// Enhanced keyword matching with better preprocessing
+// Simplified keyword matching for speech recognition
 function calculateKeywordMatch(
   recognizedText: string,
   verse: (typeof verseDatabase)[0],
 ): number {
-  const processedText = preprocessText(recognizedText);
-  const recognizedWords = processedText
-    .split(/\s+/)
-    .filter((word) => word.length > 2);
+  const textLower = recognizedText.toLowerCase();
+  const words = textLower.split(/\s+/).filter((word) => word.length > 2);
 
   let matchedKeywords = 0;
-  let totalKeywordScore = 0;
 
   for (const keyword of verse.keywords) {
-    let bestMatch = 0;
+    let found = false;
 
-    for (const word of recognizedWords) {
-      // Exact match
-      if (word === keyword) {
-        bestMatch = 100;
-        break;
-      }
-      // Partial match
-      if (word.includes(keyword) || keyword.includes(word)) {
-        bestMatch = Math.max(bestMatch, 80);
-      }
-      // Fuzzy match for longer words
-      if (word.length > 3 && keyword.length > 3) {
-        const distance = levenshteinDistance(word, keyword);
-        if (distance <= 2) {
-          const similarity =
-            ((Math.max(word.length, keyword.length) - distance) /
-              Math.max(word.length, keyword.length)) *
-            60;
-          bestMatch = Math.max(bestMatch, similarity);
+    // Check if keyword appears anywhere in the text
+    if (textLower.includes(keyword)) {
+      found = true;
+    } else {
+      // Check for partial matches in individual words
+      for (const word of words) {
+        if (
+          word.includes(keyword) ||
+          keyword.includes(word) ||
+          (word.length > 3 &&
+            keyword.length > 3 &&
+            word.substring(0, 3) === keyword.substring(0, 3))
+        ) {
+          found = true;
+          break;
         }
       }
     }
 
-    if (bestMatch > 40) {
-      // Only count meaningful matches
+    if (found) {
       matchedKeywords++;
-      totalKeywordScore += bestMatch;
     }
   }
 
-  if (matchedKeywords === 0) return 0;
-
-  // Return weighted score based on match quality and quantity
-  const coverageScore = (matchedKeywords / verse.keywords.length) * 100;
-  const qualityScore = totalKeywordScore / matchedKeywords;
-
-  return coverageScore * 0.7 + qualityScore * 0.3;
+  // More generous scoring
+  return (matchedKeywords / verse.keywords.length) * 100;
 }
 
 // Speech recognition using Web Speech API
