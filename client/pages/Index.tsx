@@ -457,8 +457,61 @@ export default function Index() {
           </Card>
         )}
 
+        {/* Demo Verses Section */}
+        <div className="mt-16 max-w-4xl mx-auto">
+          <Card className="shadow-lg border-verse-200">
+            <CardContent className="p-8">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-verse-500 mb-2">
+                  Demo Verses Available
+                </h3>
+                <p className="text-muted-foreground">
+                  Try typing or saying part of these verses to test the
+                  recognition
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4 text-sm">
+                <div className="space-y-2">
+                  <div className="p-3 bg-verse-50 rounded-lg">
+                    <strong>John 3:16</strong> - "For God so loved the world..."
+                  </div>
+                  <div className="p-3 bg-verse-50 rounded-lg">
+                    <strong>Philippians 4:13</strong> - "I can do all things
+                    through..."
+                  </div>
+                  <div className="p-3 bg-verse-50 rounded-lg">
+                    <strong>Psalm 23:1</strong> - "The Lord is my shepherd..."
+                  </div>
+                  <div className="p-3 bg-verse-50 rounded-lg">
+                    <strong>Romans 8:28</strong> - "All things work together..."
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="p-3 bg-verse-50 rounded-lg">
+                    <strong>Jeremiah 29:11</strong> - "I know the plans I
+                    have..."
+                  </div>
+                  <div className="p-3 bg-verse-50 rounded-lg">
+                    <strong>Isaiah 40:31</strong> - "Those who hope in the
+                    Lord..."
+                  </div>
+                  <div className="p-3 bg-verse-50 rounded-lg">
+                    <strong>Matthew 28:19-20</strong> - "Go and make
+                    disciples..."
+                  </div>
+                  <div className="p-3 bg-verse-50 rounded-lg">
+                    <strong>1 Corinthians 13:4-7</strong> - "Love is patient,
+                    love is kind..."
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Features Section */}
-        <div className="mt-16 grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="mt-12 grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           <div className="text-center space-y-3">
             <div className="bg-verse-100 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto">
               <Mic className="h-8 w-8 text-verse-500" />
