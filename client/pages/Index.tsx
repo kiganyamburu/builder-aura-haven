@@ -226,7 +226,7 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-verse-50 via-background to-verse-100">
+    <div className="min-h-screen bg-gradient-to-br from-verse-50 via-background to-verse-100 dark:from-verse-900 dark:via-background dark:to-verse-800">
       {/* Header */}
       <header className="border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4">
