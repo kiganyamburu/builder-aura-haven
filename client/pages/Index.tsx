@@ -207,7 +207,12 @@ export default function Index() {
   };
 
   const processAudio = async () => {
-    if (!audioFile && !liveTranscript) return;
+    const transcriptToUse = finalTranscript.trim() || liveTranscript.trim();
+
+    if (!audioFile && !transcriptToUse) {
+      setError("No audio or transcript available to process.");
+      return;
+    }
 
     setIsProcessing(true);
     setError(null);
@@ -215,12 +220,25 @@ export default function Index() {
     try {
       let verseResult: VerseMatch | null = null;
 
-      // If we have live transcript, use that directly
-      if (liveTranscript.trim()) {
+      // Prioritize final transcript, then live transcript, then audio file
+      if (transcriptToUse) {
+        console.log("Processing transcript:", transcriptToUse);
         verseResult = recognizeVerseFromText(
-          liveTranscript,
+          transcriptToUse,
           selectedTranslation,
         );
+
+        // If confidence is low, try with just the live transcript
+        if (
+          !verseResult &&
+          finalTranscript &&
+          liveTranscript !== finalTranscript
+        ) {
+          verseResult = recognizeVerseFromText(
+            liveTranscript,
+            selectedTranslation,
+          );
+        }
       } else if (audioFile) {
         // Fallback to audio file processing
         verseResult = await recognizeVerse(audioFile, selectedTranslation);
@@ -228,9 +246,19 @@ export default function Index() {
 
       if (verseResult) {
         setResult(verseResult);
+        // Store successful transcript for future reference
+        if (transcriptToUse) {
+          setFinalTranscript(transcriptToUse);
+        }
       } else {
+        const suggestions = [
+          "Try speaking more slowly and clearly",
+          "Ensure good microphone quality",
+          "Speak one verse at a time",
+          "Check if the verse is in our demo list below",
+        ];
         setError(
-          "No matching verse found. Try speaking more clearly or check if the verse is in our database.",
+          `No matching verse found. ${suggestions[Math.floor(Math.random() * suggestions.length)]}.`,
         );
       }
     } catch (err) {
