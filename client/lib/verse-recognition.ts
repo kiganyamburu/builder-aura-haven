@@ -272,8 +272,8 @@ export async function recognizeVerse(
   preferredTranslation: string = "NIV",
 ): Promise<VerseMatch | null> {
   try {
-    // Step 1: Convert speech to text (mock implementation)
-    const recognizedText = await mockSpeechToText(audioFile);
+    // Step 1: Convert speech to text
+    const recognizedText = await speechToText(audioFile);
 
     // Step 2: Find best matching verse
     let bestMatch: {
