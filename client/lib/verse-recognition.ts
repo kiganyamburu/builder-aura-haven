@@ -1,0 +1,357 @@
+// Sample Bible verses database for demo purposes
+const verseDatabase = [
+  {
+    reference: "John 3:16",
+    text: {
+      NIV: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
+      ESV: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life.",
+      KJV: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
+      NASB: "For God so loved the world, that He gave His only begotten Son, that whoever believes in Him shall not perish, but have eternal life.",
+      NLT: "For this is how God loved the world: He gave his one and only Son, so that everyone who believes in him will not perish but have eternal life.",
+    },
+    context:
+      "This verse is part of Jesus's conversation with Nicodemus about being born again and God's love for humanity.",
+    keywords: [
+      "god",
+      "loved",
+      "world",
+      "son",
+      "believes",
+      "perish",
+      "eternal",
+      "life",
+    ],
+  },
+  {
+    reference: "Romans 8:28",
+    text: {
+      NIV: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.",
+      ESV: "And we know that for those who love God all things work together for good, for those who are called according to his purpose.",
+      KJV: "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.",
+      NASB: "And we know that God causes all things to work together for good to those who love God, to those who are called according to His purpose.",
+      NLT: "And we know that God causes everything to work together for the good of those who love God and are called according to his purpose for them.",
+    },
+    context:
+      "Paul assures believers that God works all circumstances for the good of those who love Him.",
+    keywords: [
+      "all",
+      "things",
+      "work",
+      "together",
+      "good",
+      "love",
+      "god",
+      "called",
+      "purpose",
+    ],
+  },
+  {
+    reference: "Philippians 4:13",
+    text: {
+      NIV: "I can do all this through him who gives me strength.",
+      ESV: "I can do all things through him who strengthens me.",
+      KJV: "I can do all things through Christ which strengtheneth me.",
+      NASB: "I can do all things through Him who strengthens me.",
+      NLT: "For I can do everything through Christ, who gives me strength.",
+    },
+    context:
+      "Paul expresses contentment and confidence in Christ's strength regardless of circumstances.",
+    keywords: [
+      "can",
+      "do",
+      "all",
+      "things",
+      "through",
+      "christ",
+      "strength",
+      "strengthens",
+    ],
+  },
+  {
+    reference: "Jeremiah 29:11",
+    text: {
+      NIV: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, to give you hope and a future.",
+      ESV: "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope.",
+      KJV: "For I know the thoughts that I think toward you, saith the Lord, thoughts of peace, and not of evil, to give you an expected end.",
+      NASB: "For I know the plans that I have for you, declares the Lord, plans for welfare and not for calamity to give you a future and a hope.",
+      NLT: "For I know the plans I have for you, says the Lord. They are plans for good and not for disaster, to give you a future and a hope.",
+    },
+    context:
+      "God's promise to the exiled Israelites about His good plans for their future.",
+    keywords: [
+      "know",
+      "plans",
+      "lord",
+      "prosper",
+      "harm",
+      "hope",
+      "future",
+      "welfare",
+    ],
+  },
+  {
+    reference: "Psalm 23:1",
+    text: {
+      NIV: "The Lord is my shepherd, I lack nothing.",
+      ESV: "The Lord is my shepherd; I shall not want.",
+      KJV: "The Lord is my shepherd; I shall not want.",
+      NASB: "The Lord is my shepherd, I shall not want.",
+      NLT: "The Lord is my shepherd; I have all that I need.",
+    },
+    context:
+      "David's famous psalm expressing trust in God's provision and care.",
+    keywords: [
+      "lord",
+      "shepherd",
+      "shall",
+      "not",
+      "want",
+      "lack",
+      "nothing",
+      "need",
+    ],
+  },
+  {
+    reference: "Isaiah 40:31",
+    text: {
+      NIV: "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
+      ESV: "But they who wait for the Lord shall renew their strength; they shall mount up with wings like eagles; they shall run and not be weary; they shall walk and not faint.",
+      KJV: "But they that wait upon the Lord shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
+      NASB: "Yet those who wait for the Lord will gain new strength; they will mount up with wings like eagles, they will run and not get tired, they will walk and not become weary.",
+      NLT: "But those who trust in the Lord will find new strength. They will soar high on wings like eagles. They will run and not grow weary. They will walk and not faint.",
+    },
+    context:
+      "Isaiah's prophecy about the strength that comes from waiting on and trusting in the Lord.",
+    keywords: [
+      "wait",
+      "hope",
+      "lord",
+      "renew",
+      "strength",
+      "wings",
+      "eagles",
+      "run",
+      "weary",
+      "walk",
+      "faint",
+    ],
+  },
+  {
+    reference: "Matthew 28:19-20",
+    text: {
+      NIV: "Therefore go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit, and teaching them to obey everything I have commanded you. And surely I am with you always, to the very end of the age.",
+      ESV: "Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit, teaching them to observe all that I have commanded you. And behold, I am with you always, to the end of the age.",
+      KJV: "Go ye therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost: Teaching them to observe all things whatsoever I have commanded you: and, lo, I am with you always, even unto the end of the world.",
+      NASB: "Go therefore and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit, teaching them to observe all that I commanded you; and lo, I am with you always, even to the end of the age.",
+      NLT: "Therefore, go and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit. Teach these new disciples to obey all the commands I have given you. And be sure of this: I am with you always, even to the end of the age.",
+    },
+    context: "Jesus's Great Commission to His disciples before His ascension.",
+    keywords: [
+      "go",
+      "make",
+      "disciples",
+      "nations",
+      "baptizing",
+      "father",
+      "son",
+      "holy",
+      "spirit",
+      "teaching",
+      "commanded",
+      "with",
+      "you",
+      "always",
+    ],
+  },
+  {
+    reference: "1 Corinthians 13:4-7",
+    text: {
+      NIV: "Love is patient, love is kind. It does not envy, it does not boast, it is not proud. It does not dishonor others, it is not self-seeking, it is not easily angered, it keeps no record of wrongs. Love does not delight in evil but rejoices with the truth. It always protects, always trusts, always hopes, always perseveres.",
+      ESV: "Love is patient and kind; love does not envy or boast; it is not arrogant or rude. It does not insist on its own way; it is not irritable or resentful; it does not rejoice at wrongdoing, but rejoices with the truth. Love bears all things, believes all things, hopes all things, endures all things.",
+      KJV: "Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up, Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil; Rejoiceth not in iniquity, but rejoiceth in the truth; Beareth all things, believeth all things, hopeth all things, endureth all things.",
+      NASB: "Love is patient, love is kind and is not jealous; love does not brag and is not arrogant, does not act unbecomingly; it does not seek its own, is not provoked, does not take into account a wrong suffered, does not rejoice in unrighteousness, but rejoices with the truth; bears all things, believes all things, hopes all things, endures all things.",
+      NLT: "Love is patient and kind. Love is not jealous or boastful or proud or rude. It does not demand its own way. It is not irritable, and it keeps no record of being wronged. It does not rejoice about injustice but rejoices whenever the truth wins out. Love never gives up, never loses faith, is always hopeful, and endures through every circumstance.",
+    },
+    context:
+      "Paul's famous description of love in his letter to the Corinthians.",
+    keywords: [
+      "love",
+      "patient",
+      "kind",
+      "envy",
+      "boast",
+      "proud",
+      "protects",
+      "trusts",
+      "hopes",
+      "perseveres",
+    ],
+  },
+];
+
+// Simple text similarity function
+function calculateSimilarity(text1: string, text2: string): number {
+  const words1 = text1
+    .toLowerCase()
+    .replace(/[^\w\s]/g, "")
+    .split(/\s+/)
+    .filter((word) => word.length > 2);
+  const words2 = text2
+    .toLowerCase()
+    .replace(/[^\w\s]/g, "")
+    .split(/\s+/)
+    .filter((word) => word.length > 2);
+
+  const commonWords = words1.filter((word) => words2.includes(word));
+  const totalWords = Math.max(words1.length, words2.length);
+
+  return totalWords > 0 ? (commonWords.length / totalWords) * 100 : 0;
+}
+
+// Enhanced matching using keywords
+function calculateKeywordMatch(
+  recognizedText: string,
+  verse: (typeof verseDatabase)[0],
+): number {
+  const recognizedWords = recognizedText
+    .toLowerCase()
+    .replace(/[^\w\s]/g, "")
+    .split(/\s+/);
+  const matchedKeywords = verse.keywords.filter((keyword) =>
+    recognizedWords.some(
+      (word) => word.includes(keyword) || keyword.includes(word),
+    ),
+  );
+
+  return (matchedKeywords.length / verse.keywords.length) * 100;
+}
+
+// Mock speech-to-text conversion (in real app, this would use Web Speech API or cloud service)
+function mockSpeechToText(audioFile: File): Promise<string> {
+  return new Promise((resolve) => {
+    // Simulate processing time
+    setTimeout(() => {
+      // For demo purposes, we'll simulate some common verse phrases
+      const mockTranscriptions = [
+        "For God so loved the world that he gave his one and only son",
+        "I can do all things through Christ who strengthens me",
+        "The Lord is my shepherd I shall not want",
+        "And we know that all things work together for good",
+        "For I know the plans I have for you declares the Lord",
+        "Love is patient love is kind",
+        "But those who hope in the Lord will renew their strength",
+        "Go and make disciples of all nations",
+      ];
+
+      // Randomly select one for demo
+      const randomTranscription =
+        mockTranscriptions[
+          Math.floor(Math.random() * mockTranscriptions.length)
+        ];
+      resolve(randomTranscription);
+    }, 1000);
+  });
+}
+
+export interface VerseMatch {
+  reference: string;
+  text: string;
+  translation: string;
+  context: string;
+  confidence: number;
+}
+
+export async function recognizeVerse(
+  audioFile: File,
+  preferredTranslation: string = "NIV",
+): Promise<VerseMatch | null> {
+  try {
+    // Step 1: Convert speech to text (mock implementation)
+    const recognizedText = await mockSpeechToText(audioFile);
+
+    // Step 2: Find best matching verse
+    let bestMatch: {
+      verse: (typeof verseDatabase)[0];
+      confidence: number;
+    } | null = null;
+
+    for (const verse of verseDatabase) {
+      // Calculate similarity with the preferred translation
+      const textSimilarity = calculateSimilarity(
+        recognizedText,
+        verse.text[preferredTranslation as keyof typeof verse.text] ||
+          verse.text.NIV,
+      );
+
+      // Calculate keyword match
+      const keywordMatch = calculateKeywordMatch(recognizedText, verse);
+
+      // Combined confidence score (weighted average)
+      const confidence = textSimilarity * 0.7 + keywordMatch * 0.3;
+
+      if (!bestMatch || confidence > bestMatch.confidence) {
+        bestMatch = { verse, confidence };
+      }
+    }
+
+    // Only return results with reasonable confidence
+    if (bestMatch && bestMatch.confidence > 15) {
+      return {
+        reference: bestMatch.verse.reference,
+        text:
+          bestMatch.verse.text[
+            preferredTranslation as keyof typeof bestMatch.verse.text
+          ] || bestMatch.verse.text.NIV,
+        translation: preferredTranslation,
+        context: bestMatch.verse.context,
+        confidence: Math.round(bestMatch.confidence),
+      };
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Error recognizing verse:", error);
+    return null;
+  }
+}
+
+// For testing purposes - simulate text input
+export function recognizeVerseFromText(
+  text: string,
+  preferredTranslation: string = "NIV",
+): VerseMatch | null {
+  let bestMatch: {
+    verse: (typeof verseDatabase)[0];
+    confidence: number;
+  } | null = null;
+
+  for (const verse of verseDatabase) {
+    const textSimilarity = calculateSimilarity(
+      text,
+      verse.text[preferredTranslation as keyof typeof verse.text] ||
+        verse.text.NIV,
+    );
+
+    const keywordMatch = calculateKeywordMatch(text, verse);
+    const confidence = textSimilarity * 0.7 + keywordMatch * 0.3;
+
+    if (!bestMatch || confidence > bestMatch.confidence) {
+      bestMatch = { verse, confidence };
+    }
+  }
+
+  if (bestMatch && bestMatch.confidence > 15) {
+    return {
+      reference: bestMatch.verse.reference,
+      text:
+        bestMatch.verse.text[
+          preferredTranslation as keyof typeof bestMatch.verse.text
+        ] || bestMatch.verse.text.NIV,
+      translation: preferredTranslation,
+      context: bestMatch.verse.context,
+      confidence: Math.round(bestMatch.confidence),
+    };
+  }
+
+  return null;
+}
