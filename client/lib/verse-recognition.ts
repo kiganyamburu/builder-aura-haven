@@ -202,6 +202,41 @@ function preprocessText(text: string): string {
   );
 }
 
+// Simple word overlap matching for speech recognition
+function calculateSimpleMatch(text1: string, text2: string): number {
+  const words1 = text1
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((word) => word.length > 2);
+  const words2 = text2
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((word) => word.length > 2);
+
+  if (words1.length === 0 || words2.length === 0) return 0;
+
+  let matches = 0;
+  for (const word1 of words1) {
+    for (const word2 of words2) {
+      if (
+        word1 === word2 ||
+        word1.includes(word2) ||
+        word2.includes(word1) ||
+        (word1.length > 4 &&
+          word2.length > 4 &&
+          (word1.substring(0, 4) === word2.substring(0, 4) ||
+            (Math.abs(word1.length - word2.length) <= 2 &&
+              levenshteinDistance(word1, word2) <= 2)))
+      ) {
+        matches++;
+        break;
+      }
+    }
+  }
+
+  return (matches / Math.max(words1.length, words2.length)) * 100;
+}
+
 // Advanced text similarity using multiple algorithms
 function calculateSimilarity(text1: string, text2: string): number {
   const processed1 = preprocessText(text1);
