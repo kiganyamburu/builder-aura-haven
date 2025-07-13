@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -21,24 +22,26 @@ import {
   Share,
   History,
   Search,
+  AlertCircle,
+  Type,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-
-interface VerseResult {
-  reference: string;
-  text: string;
-  translation: string;
-  context: string;
-  confidence: number;
-}
+import {
+  recognizeVerse,
+  recognizeVerseFromText,
+  VerseMatch,
+} from "@/lib/verse-recognition";
 
 export default function Index() {
   const [isRecording, setIsRecording] = useState(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [result, setResult] = useState<VerseResult | null>(null);
+  const [result, setResult] = useState<VerseMatch | null>(null);
   const [selectedTranslation, setSelectedTranslation] = useState("NIV");
   const [recordingTime, setRecordingTime] = useState(0);
+  const [testText, setTestText] = useState("");
+  const [showTextInput, setShowTextInput] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -113,21 +116,48 @@ export default function Index() {
     if (!audioFile) return;
 
     setIsProcessing(true);
+    setError(null);
 
-    // Simulate processing time
-    setTimeout(() => {
-      // Mock result for demonstration
-      const mockResult: VerseResult = {
-        reference: "John 3:16",
-        text: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
-        translation: selectedTranslation,
-        context:
-          "This verse is part of Jesus's conversation with Nicodemus about being born again and God's love for humanity.",
-        confidence: 94,
-      };
-      setResult(mockResult);
+    try {
+      const verseResult = await recognizeVerse(audioFile, selectedTranslation);
+
+      if (verseResult) {
+        setResult(verseResult);
+      } else {
+        setError(
+          "No matching verse found. Try recording a clearer audio or check if the verse is in our database.",
+        );
+      }
+    } catch (err) {
+      setError("Error processing audio. Please try again.");
+      console.error("Audio processing error:", err);
+    } finally {
       setIsProcessing(false);
-    }, 3000);
+    }
+  };
+
+  const processTextInput = () => {
+    if (!testText.trim()) return;
+
+    setIsProcessing(true);
+    setError(null);
+
+    try {
+      const verseResult = recognizeVerseFromText(testText, selectedTranslation);
+
+      if (verseResult) {
+        setResult(verseResult);
+      } else {
+        setError(
+          "No matching verse found. Try different words or check if the verse is in our database.",
+        );
+      }
+    } catch (err) {
+      setError("Error processing text. Please try again.");
+      console.error("Text processing error:", err);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -285,6 +315,47 @@ export default function Index() {
                 </Select>
               </div>
 
+              {/* Text Input for Testing */}
+              <div className="space-y-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowTextInput(!showTextInput)}
+                  className="w-full"
+                >
+                  <Type className="h-4 w-4 mr-2" />
+                  {showTextInput ? "Hide" : "Test with"} Text Input
+                </Button>
+
+                {showTextInput && (
+                  <div className="space-y-3">
+                    <Input
+                      placeholder="Type part of a Bible verse to test recognition..."
+                      value={testText}
+                      onChange={(e) => setTestText(e.target.value)}
+                      className="w-full"
+                    />
+                    <Button
+                      onClick={processTextInput}
+                      disabled={isProcessing || !testText.trim()}
+                      className="w-full bg-gold-500 hover:bg-gold-600"
+                      size="sm"
+                    >
+                      {isProcessing ? (
+                        <>
+                          <Search className="h-4 w-4 mr-2 animate-spin" />
+                          Searching...
+                        </>
+                      ) : (
+                        <>
+                          <Search className="h-4 w-4 mr-2" />
+                          Find Verse from Text
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                )}
+              </div>
+
               {/* Process Button */}
               {audioFile && (
                 <Button
@@ -310,6 +381,25 @@ export default function Index() {
           </CardContent>
         </Card>
 
+        {/* Error Message */}
+        {error && (
+          <Card className="max-w-2xl mx-auto mb-4 shadow-lg border-red-200 bg-red-50">
+            <CardContent className="p-6">
+              <div className="flex items-start space-x-3">
+                <AlertCircle className="h-5 w-5 text-red-500 mt-0.5" />
+                <div>
+                  <h4 className="font-medium text-red-700">No Verse Found</h4>
+                  <p className="text-red-600 text-sm mt-1">{error}</p>
+                  <p className="text-red-500 text-xs mt-2">
+                    Try verses like: "For God so loved the world", "I can do all
+                    things through Christ", "The Lord is my shepherd"
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Results */}
         {result && (
           <Card className="max-w-2xl mx-auto shadow-lg border-verse-200">
@@ -321,7 +411,7 @@ export default function Index() {
                   </h3>
                   <Badge
                     variant="secondary"
-                    className="bg-green-100 text-green-700"
+                    className={`${result.confidence > 70 ? "bg-green-100 text-green-700" : result.confidence > 40 ? "bg-yellow-100 text-yellow-700" : "bg-orange-100 text-orange-700"}`}
                   >
                     {result.confidence}% confident
                   </Badge>
