@@ -429,7 +429,7 @@ export default function Index() {
               </div>
 
               {/* Process Button */}
-              {audioFile && (
+              {(audioFile || liveTranscript) && (
                 <Button
                   onClick={processAudio}
                   disabled={isProcessing}
@@ -444,7 +444,9 @@ export default function Index() {
                   ) : (
                     <>
                       <Search className="h-4 w-4 mr-2" />
-                      Find Verse
+                      {liveTranscript
+                        ? "Find Verse from Speech"
+                        : "Find Verse from Audio"}
                     </>
                   )}
                 </Button>
