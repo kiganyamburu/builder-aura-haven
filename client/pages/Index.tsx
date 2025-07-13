@@ -26,6 +26,7 @@ import {
   Type,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { ThemeToggle } from "@/components/theme-toggle";
 import {
   recognizeVerse,
   recognizeVerseFromText,
