@@ -257,6 +257,7 @@ export default function Index() {
                   Saved
                 </Button>
               </Link>
+              <ThemeToggle />
             </div>
           </div>
         </div>
