@@ -551,36 +551,79 @@ export default function Index() {
 
               <div className="grid md:grid-cols-2 gap-4 text-sm">
                 <div className="space-y-2">
-                  <div className="p-3 bg-verse-50 rounded-lg">
-                    <strong>John 3:16</strong> - "For God so loved the world..."
+                  <div className="p-3 bg-verse-50 dark:bg-verse-800 rounded-lg border dark:border-verse-700">
+                    <strong className="text-verse-700 dark:text-verse-300">
+                      John 3:16
+                    </strong>{" "}
+                    -{" "}
+                    <span className="text-verse-600 dark:text-verse-400">
+                      "For God so loved the world..."
+                    </span>
                   </div>
-                  <div className="p-3 bg-verse-50 rounded-lg">
-                    <strong>Philippians 4:13</strong> - "I can do all things
-                    through..."
+                  <div className="p-3 bg-verse-50 dark:bg-verse-800 rounded-lg border dark:border-verse-700">
+                    <strong className="text-verse-700 dark:text-verse-300">
+                      Philippians 4:13
+                    </strong>{" "}
+                    -{" "}
+                    <span className="text-verse-600 dark:text-verse-400">
+                      "I can do all things through..."
+                    </span>
                   </div>
-                  <div className="p-3 bg-verse-50 rounded-lg">
-                    <strong>Psalm 23:1</strong> - "The Lord is my shepherd..."
+                  <div className="p-3 bg-verse-50 dark:bg-verse-800 rounded-lg border dark:border-verse-700">
+                    <strong className="text-verse-700 dark:text-verse-300">
+                      Psalm 23:1
+                    </strong>{" "}
+                    -{" "}
+                    <span className="text-verse-600 dark:text-verse-400">
+                      "The Lord is my shepherd..."
+                    </span>
                   </div>
-                  <div className="p-3 bg-verse-50 rounded-lg">
-                    <strong>Romans 8:28</strong> - "All things work together..."
+                  <div className="p-3 bg-verse-50 dark:bg-verse-800 rounded-lg border dark:border-verse-700">
+                    <strong className="text-verse-700 dark:text-verse-300">
+                      Romans 8:28
+                    </strong>{" "}
+                    -{" "}
+                    <span className="text-verse-600 dark:text-verse-400">
+                      "All things work together..."
+                    </span>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div className="p-3 bg-verse-50 rounded-lg">
-                    <strong>Jeremiah 29:11</strong> - "I know the plans I
-                    have..."
+                  <div className="p-3 bg-verse-50 dark:bg-verse-800 rounded-lg border dark:border-verse-700">
+                    <strong className="text-verse-700 dark:text-verse-300">
+                      Jeremiah 29:11
+                    </strong>{" "}
+                    -{" "}
+                    <span className="text-verse-600 dark:text-verse-400">
+                      "I know the plans I have..."
+                    </span>
                   </div>
-                  <div className="p-3 bg-verse-50 rounded-lg">
-                    <strong>Isaiah 40:31</strong> - "Those who hope in the
-                    Lord..."
+                  <div className="p-3 bg-verse-50 dark:bg-verse-800 rounded-lg border dark:border-verse-700">
+                    <strong className="text-verse-700 dark:text-verse-300">
+                      Isaiah 40:31
+                    </strong>{" "}
+                    -{" "}
+                    <span className="text-verse-600 dark:text-verse-400">
+                      "Those who hope in the Lord..."
+                    </span>
                   </div>
-                  <div className="p-3 bg-verse-50 rounded-lg">
-                    <strong>Matthew 28:19-20</strong> - "Go and make
-                    disciples..."
+                  <div className="p-3 bg-verse-50 dark:bg-verse-800 rounded-lg border dark:border-verse-700">
+                    <strong className="text-verse-700 dark:text-verse-300">
+                      Matthew 28:19-20
+                    </strong>{" "}
+                    -{" "}
+                    <span className="text-verse-600 dark:text-verse-400">
+                      "Go and make disciples..."
+                    </span>
                   </div>
-                  <div className="p-3 bg-verse-50 rounded-lg">
-                    <strong>1 Corinthians 13:4-7</strong> - "Love is patient,
-                    love is kind..."
+                  <div className="p-3 bg-verse-50 dark:bg-verse-800 rounded-lg border dark:border-verse-700">
+                    <strong className="text-verse-700 dark:text-verse-300">
+                      1 Corinthians 13:4-7
+                    </strong>{" "}
+                    -{" "}
+                    <span className="text-verse-600 dark:text-verse-400">
+                      "Love is patient, love is kind..."
+                    </span>
                   </div>
                 </div>
               </div>
