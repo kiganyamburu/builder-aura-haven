@@ -328,7 +328,7 @@ function preprocessText(text: string): string {
   );
 }
 
-// Simple word overlap matching for speech recognition
+// Optimized simple word overlap matching for speech recognition
 function calculateSimpleMatch(text1: string, text2: string): number {
   const words1 = text1
     .toLowerCase()
@@ -341,26 +341,56 @@ function calculateSimpleMatch(text1: string, text2: string): number {
 
   if (words1.length === 0 || words2.length === 0) return 0;
 
+  // Create a Set for faster exact lookup
+  const words2Set = new Set(words2);
   let matches = 0;
+
   for (const word1 of words1) {
+    // Fast exact match check
+    if (words2Set.has(word1)) {
+      matches++;
+      continue;
+    }
+
+    // Check for partial matches only if no exact match
+    let found = false;
     for (const word2 of words2) {
-      if (
-        word1 === word2 ||
-        word1.includes(word2) ||
-        word2.includes(word1) ||
-        (word1.length > 4 &&
-          word2.length > 4 &&
-          (word1.substring(0, 4) === word2.substring(0, 4) ||
-            (Math.abs(word1.length - word2.length) <= 2 &&
-              levenshteinDistance(word1, word2) <= 2)))
-      ) {
-        matches++;
+      if (word1.includes(word2) || word2.includes(word1)) {
+        found = true;
         break;
       }
+      // Optimized fuzzy matching for longer words
+      if (word1.length > 4 && word2.length > 4) {
+        if (
+          word1.substring(0, 4) === word2.substring(0, 4) ||
+          (Math.abs(word1.length - word2.length) <= 2 &&
+            levenshteinDistance(word1, word2) <= 2)
+        ) {
+          found = true;
+          break;
+        }
+      }
+    }
+
+    if (found) {
+      matches++;
     }
   }
 
   return (matches / Math.max(words1.length, words2.length)) * 100;
+}
+
+// Cache management functions
+export function clearSearchCache(): void {
+  searchCache.clear();
+  console.log("Search cache cleared");
+}
+
+export function getSearchStats(): { cacheSize: number; indexBuilt: boolean } {
+  return {
+    cacheSize: searchCache.size,
+    indexBuilt: searchIndex !== null,
+  };
 }
 
 // Advanced text similarity using multiple algorithms
