@@ -108,21 +108,66 @@ export default function Index() {
         const recognition = new SpeechRecognition();
         recognitionRef.current = recognition;
 
+        // Optimized configuration for accuracy
         recognition.continuous = true;
         recognition.interimResults = true;
         recognition.lang = "en-US";
+        recognition.maxAlternatives = 3; // Get multiple alternatives
+        recognition.grammars = null; // Use default grammar for better general recognition
+
+        let finalTranscript = "";
+        let interimTranscript = "";
 
         recognition.onresult = (event) => {
-          let transcript = "";
-          for (let i = event.resultIndex; i < event.results.length; i++) {
-            transcript += event.results[i][0].transcript;
+          interimTranscript = "";
+          finalTranscript = "";
+
+          for (let i = 0; i < event.results.length; i++) {
+            const result = event.results[i];
+            const transcript = result[0].transcript;
+
+            if (result.isFinal) {
+              finalTranscript += transcript + " ";
+            } else {
+              interimTranscript += transcript;
+            }
           }
-          setLiveTranscript(transcript);
+
+          // Combine final and interim results
+          const fullTranscript = (finalTranscript + interimTranscript).trim();
+          setLiveTranscript(fullTranscript);
         };
 
         recognition.onerror = (event) => {
           console.error("Speech recognition error:", event.error);
-          setError("Speech recognition error. Please try again.");
+          if (event.error === "no-speech") {
+            setError(
+              "No speech detected. Please speak louder or closer to the microphone.",
+            );
+          } else if (event.error === "audio-capture") {
+            setError(
+              "Microphone access denied. Please check your browser permissions.",
+            );
+          } else if (event.error === "not-allowed") {
+            setError(
+              "Microphone permission denied. Please allow microphone access and try again.",
+            );
+          } else {
+            setError(
+              `Speech recognition error: ${event.error}. Please try again.`,
+            );
+          }
+        };
+
+        recognition.onend = () => {
+          // Auto-restart if still recording (for continuous recognition)
+          if (isRecording) {
+            try {
+              recognition.start();
+            } catch (e) {
+              console.log("Recognition restart failed:", e);
+            }
+          }
         };
 
         recognition.start();
