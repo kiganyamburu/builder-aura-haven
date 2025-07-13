@@ -156,14 +156,18 @@ export default function Index() {
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <Button variant="ghost" size="sm">
-                <History className="h-4 w-4 mr-2" />
-                History
-              </Button>
-              <Button variant="ghost" size="sm">
-                <Save className="h-4 w-4 mr-2" />
-                Saved
-              </Button>
+              <Link to="/history">
+                <Button variant="ghost" size="sm">
+                  <History className="h-4 w-4 mr-2" />
+                  History
+                </Button>
+              </Link>
+              <Link to="/saved">
+                <Button variant="ghost" size="sm">
+                  <Save className="h-4 w-4 mr-2" />
+                  Saved
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
