@@ -31,6 +31,8 @@ import {
   recognizeVerse,
   recognizeVerseFromText,
   VerseMatch,
+  getSearchStats,
+  clearSearchCache,
 } from "@/lib/verse-recognition";
 
 export default function Index() {
