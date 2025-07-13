@@ -579,15 +579,30 @@ export async function recognizeVerse(
   }
 }
 
-// For testing purposes - simulate text input
+// Optimized verse recognition with indexing and caching
 export function recognizeVerseFromText(
   text: string,
   preferredTranslation: string = "NIV",
 ): VerseMatch | null {
   if (!text || text.trim().length < 2) return null;
 
+  // Check cache first
+  const cacheKey = `${text.toLowerCase().trim()}_${preferredTranslation}`;
+  if (searchCache.has(cacheKey)) {
+    console.log("Cache hit for:", text);
+    return searchCache.get(cacheKey)!;
+  }
+
+  console.log("Searching for:", text);
+  const startTime = performance.now();
+
+  // Get candidate verses using optimized index
+  const candidateIndices = getCandidateVerses(text);
+  console.log(`Found ${candidateIndices.length} candidate verses`);
+
   const matches: Array<{
     verse: (typeof verseDatabase)[0];
+    verseIndex: number;
     confidence: number;
     details: {
       simpleMatch: number;
@@ -596,25 +611,29 @@ export function recognizeVerseFromText(
     };
   }> = [];
 
-  console.log("Searching for:", text);
+  const index = buildSearchIndex();
 
-  // Try matching against all translations with multiple algorithms
-  for (const verse of verseDatabase) {
+  // Only test candidate verses (much faster)
+  for (const verseIndex of candidateIndices) {
+    const verse = verseDatabase[verseIndex];
     let bestSimpleMatch = 0;
     let bestAdvancedMatch = 0;
 
-    // Test against all available translations
-    for (const [translation, verseText] of Object.entries(verse.text)) {
-      const simpleMatch = calculateSimpleMatch(text, verseText);
-      const advancedMatch = calculateSimilarity(text, verseText);
-
+    // Test against pre-processed translations from index for simple matching
+    index.verseTexts[verseIndex].forEach((processedText) => {
+      const simpleMatch = calculateSimpleMatch(text, processedText);
       bestSimpleMatch = Math.max(bestSimpleMatch, simpleMatch);
+    });
+
+    // Also test against original text for advanced matching
+    for (const [translation, verseText] of Object.entries(verse.text)) {
+      const advancedMatch = calculateSimilarity(text, verseText);
       bestAdvancedMatch = Math.max(bestAdvancedMatch, advancedMatch);
     }
 
     const keywordMatch = calculateKeywordMatch(text, verse);
 
-    // More lenient confidence calculation
+    // Enhanced confidence calculation
     const confidence = Math.max(
       bestSimpleMatch * 0.6 + keywordMatch * 0.4,
       bestAdvancedMatch * 0.4 + keywordMatch * 0.6,
@@ -623,6 +642,7 @@ export function recognizeVerseFromText(
 
     matches.push({
       verse,
+      verseIndex,
       confidence,
       details: {
         simpleMatch: bestSimpleMatch,
@@ -631,25 +651,29 @@ export function recognizeVerseFromText(
       },
     });
 
-    console.log(
-      `${verse.reference}: simple=${bestSimpleMatch.toFixed(1)}, advanced=${bestAdvancedMatch.toFixed(1)}, keyword=${keywordMatch.toFixed(1)}, final=${confidence.toFixed(1)}`,
-    );
+    // Early termination for very high confidence matches
+    if (confidence > 75) {
+      console.log(
+        `High confidence match found: ${verse.reference} (${confidence.toFixed(1)}%)`,
+      );
+      break;
+    }
   }
 
   // Sort by confidence
   matches.sort((a, b) => b.confidence - a.confidence);
 
   const bestMatch = matches[0];
+  const minConfidence = 8;
 
-  // Much more lenient thresholds for speech recognition
-  const minConfidence = 8; // Lowered from 25
+  let result: VerseMatch | null = null;
 
   if (bestMatch && bestMatch.confidence > minConfidence) {
     console.log(
-      `Match found: ${bestMatch.verse.reference} with confidence ${bestMatch.confidence.toFixed(1)}`,
+      `Match found: ${bestMatch.verse.reference} with confidence ${bestMatch.confidence.toFixed(1)}% in ${(performance.now() - startTime).toFixed(1)}ms`,
     );
 
-    return {
+    result = {
       reference: bestMatch.verse.reference,
       text:
         bestMatch.verse.text[
@@ -659,11 +683,20 @@ export function recognizeVerseFromText(
       context: bestMatch.verse.context,
       confidence: Math.min(95, Math.round(bestMatch.confidence)),
     };
+  } else {
+    console.log(
+      `No match found. Best confidence was: ${bestMatch?.confidence?.toFixed(1) || "N/A"} in ${(performance.now() - startTime).toFixed(1)}ms`,
+    );
   }
 
-  console.log(
-    "No match found. Best confidence was:",
-    bestMatch?.confidence?.toFixed(1) || "N/A",
-  );
-  return null;
+  // Cache the result
+  searchCache.set(cacheKey, result);
+
+  // Limit cache size to prevent memory issues
+  if (searchCache.size > 100) {
+    const firstKey = searchCache.keys().next().value;
+    searchCache.delete(firstKey);
+  }
+
+  return result;
 }
