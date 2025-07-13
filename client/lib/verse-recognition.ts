@@ -189,17 +189,17 @@ const verseDatabase = [
   },
 ];
 
-// Enhanced text preprocessing
+// More conservative text preprocessing for Bible verses
 function preprocessText(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .replace(
-      /\b(the|and|a|an|of|to|in|for|with|on|at|by|from|that|this|is|are|was|were|be|been|being|have|has|had|do|does|did|will|would|could|should|may|might|can|shall)\b/g,
-      "",
-    )
-    .trim();
+  return (
+    text
+      .toLowerCase()
+      .replace(/[^\w\s]/g, " ")
+      .replace(/\s+/g, " ")
+      // Only remove filler words that don't add meaning to Bible verses
+      .replace(/\b(um|uh|like|you know|so|well)\b/g, "")
+      .trim()
+  );
 }
 
 // Advanced text similarity using multiple algorithms
