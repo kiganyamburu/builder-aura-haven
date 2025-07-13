@@ -52,7 +52,8 @@ export default function Index() {
   useEffect(() => {
     // Check for speech recognition support
     const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
     setSpeechSupported(!!SpeechRecognition);
 
     if (isRecording && intervalRef.current === null) {
