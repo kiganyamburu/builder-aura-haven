@@ -158,19 +158,30 @@ export default function Index() {
   };
 
   const processAudio = async () => {
-    if (!audioFile) return;
+    if (!audioFile && !liveTranscript) return;
 
     setIsProcessing(true);
     setError(null);
 
     try {
-      const verseResult = await recognizeVerse(audioFile, selectedTranslation);
+      let verseResult: VerseMatch | null = null;
+
+      // If we have live transcript, use that directly
+      if (liveTranscript.trim()) {
+        verseResult = recognizeVerseFromText(
+          liveTranscript,
+          selectedTranslation,
+        );
+      } else if (audioFile) {
+        // Fallback to audio file processing
+        verseResult = await recognizeVerse(audioFile, selectedTranslation);
+      }
 
       if (verseResult) {
         setResult(verseResult);
       } else {
         setError(
-          "No matching verse found. Try recording a clearer audio or check if the verse is in our database.",
+          "No matching verse found. Try speaking more clearly or check if the verse is in our database.",
         );
       }
     } catch (err) {
