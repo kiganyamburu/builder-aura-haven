@@ -42,9 +42,12 @@ export default function Index() {
   const [testText, setTestText] = useState("");
   const [showTextInput, setShowTextInput] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [liveTranscript, setLiveTranscript] = useState("");
+  const [speechSupported, setSpeechSupported] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     if (isRecording && intervalRef.current === null) {
