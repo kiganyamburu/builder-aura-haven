@@ -192,6 +192,11 @@ export default function Index() {
       recognitionRef.current.stop();
       recognitionRef.current = null;
     }
+
+    // Save the current transcript as final when recording stops
+    if (liveTranscript.trim()) {
+      setFinalTranscript(liveTranscript.trim());
+    }
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
