@@ -320,9 +320,25 @@ export default function Index() {
                 </p>
                 <p className="text-sm text-muted-foreground">
                   {isRecording
-                    ? "Speak or play the Bible verse you want to identify"
-                    : "Hold the button while someone speaks a Bible verse"}
+                    ? speechSupported
+                      ? "Speak a Bible verse - I'm listening and transcribing"
+                      : "Recording audio... (Speech recognition not supported in this browser)"
+                    : speechSupported
+                      ? "Hold the button and speak a Bible verse"
+                      : "Audio recording only (Speech recognition not supported)"}
                 </p>
+
+                {/* Live Transcript Display */}
+                {isRecording && liveTranscript && (
+                  <div className="mt-4 p-3 bg-verse-50 rounded-lg border border-verse-200">
+                    <p className="text-xs text-verse-600 mb-1">
+                      Live transcript:
+                    </p>
+                    <p className="text-sm text-verse-700 italic">
+                      "{liveTranscript}"
+                    </p>
+                  </div>
+                )}
               </div>
 
               <Separator className="my-6" />
