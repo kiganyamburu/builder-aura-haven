@@ -189,23 +189,97 @@ const verseDatabase = [
   },
 ];
 
-// Simple text similarity function
+// Enhanced text preprocessing
+function preprocessText(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .replace(
+      /\b(the|and|a|an|of|to|in|for|with|on|at|by|from|that|this|is|are|was|were|be|been|being|have|has|had|do|does|did|will|would|could|should|may|might|can|shall)\b/g,
+      "",
+    )
+    .trim();
+}
+
+// Advanced text similarity using multiple algorithms
 function calculateSimilarity(text1: string, text2: string): number {
-  const words1 = text1
-    .toLowerCase()
-    .replace(/[^\w\s]/g, "")
-    .split(/\s+/)
-    .filter((word) => word.length > 2);
-  const words2 = text2
-    .toLowerCase()
-    .replace(/[^\w\s]/g, "")
-    .split(/\s+/)
-    .filter((word) => word.length > 2);
+  const processed1 = preprocessText(text1);
+  const processed2 = preprocessText(text2);
 
-  const commonWords = words1.filter((word) => words2.includes(word));
-  const totalWords = Math.max(words1.length, words2.length);
+  const words1 = processed1.split(/\s+/).filter((word) => word.length > 2);
+  const words2 = processed2.split(/\s+/).filter((word) => word.length > 2);
 
-  return totalWords > 0 ? (commonWords.length / totalWords) * 100 : 0;
+  if (words1.length === 0 || words2.length === 0) return 0;
+
+  // Exact word matches
+  const exactMatches = words1.filter((word) => words2.includes(word));
+  const exactScore =
+    (exactMatches.length / Math.max(words1.length, words2.length)) * 100;
+
+  // Fuzzy matches (similar words)
+  let fuzzyMatches = 0;
+  for (const word1 of words1) {
+    for (const word2 of words2) {
+      if (word1.length > 3 && word2.length > 3) {
+        if (
+          word1.includes(word2) ||
+          word2.includes(word1) ||
+          levenshteinDistance(word1, word2) <= 2
+        ) {
+          fuzzyMatches++;
+          break;
+        }
+      }
+    }
+  }
+  const fuzzyScore =
+    (fuzzyMatches / Math.max(words1.length, words2.length)) * 100;
+
+  // Sequence matching (order matters)
+  const sequenceScore = calculateSequenceMatch(words1, words2);
+
+  // Weighted combination
+  return exactScore * 0.5 + fuzzyScore * 0.3 + sequenceScore * 0.2;
+}
+
+// Calculate Levenshtein distance for fuzzy matching
+function levenshteinDistance(str1: string, str2: string): number {
+  const matrix = [];
+  for (let i = 0; i <= str2.length; i++) {
+    matrix[i] = [i];
+  }
+  for (let j = 0; j <= str1.length; j++) {
+    matrix[0][j] = j;
+  }
+  for (let i = 1; i <= str2.length; i++) {
+    for (let j = 1; j <= str1.length; j++) {
+      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j] + 1,
+        );
+      }
+    }
+  }
+  return matrix[str2.length][str1.length];
+}
+
+// Calculate sequence matching score
+function calculateSequenceMatch(words1: string[], words2: string[]): number {
+  let matches = 0;
+  const minLength = Math.min(words1.length, words2.length);
+
+  for (let i = 0; i < minLength; i++) {
+    if (words1[i] === words2[i]) {
+      matches++;
+    }
+  }
+
+  return minLength > 0 ? (matches / minLength) * 100 : 0;
 }
 
 // Enhanced matching using keywords
