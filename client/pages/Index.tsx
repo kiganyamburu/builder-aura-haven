@@ -407,16 +407,44 @@ export default function Index() {
                 </p>
 
                 {/* Live Transcript Display */}
-                {isRecording && liveTranscript && (
-                  <div className="mt-4 p-3 bg-verse-50 rounded-lg border border-verse-200">
-                    <p className="text-xs text-verse-600 mb-1">
-                      Live transcript:
-                    </p>
-                    <p className="text-sm text-verse-700 italic">
-                      "{liveTranscript}"
-                    </p>
-                  </div>
-                )}
+                {(isRecording || finalTranscript) &&
+                  (liveTranscript || finalTranscript) && (
+                    <div className="mt-4 space-y-2">
+                      {liveTranscript && (
+                        <div className="p-3 bg-verse-50 dark:bg-verse-800 rounded-lg border border-verse-200 dark:border-verse-700">
+                          <p className="text-xs text-verse-600 dark:text-verse-400 mb-1 flex items-center">
+                            <span
+                              className={`w-2 h-2 rounded-full mr-2 ${isRecording ? "bg-red-400 animate-pulse" : "bg-green-400"}`}
+                            ></span>
+                            {isRecording
+                              ? "Live transcript:"
+                              : "Recorded transcript:"}
+                          </p>
+                          <p className="text-sm text-verse-700 dark:text-verse-300 italic">
+                            "{liveTranscript}"
+                          </p>
+                          {liveTranscript.length > 10 && (
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Quality:{" "}
+                              {liveTranscript.length > 30 ? "Good" : "Fair"} •{" "}
+                              {liveTranscript.split(" ").length} words
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      {finalTranscript &&
+                        finalTranscript !== liveTranscript && (
+                          <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-700">
+                            <p className="text-xs text-green-600 dark:text-green-400 mb-1">
+                              Best transcript:
+                            </p>
+                            <p className="text-sm text-green-700 dark:text-green-300 italic">
+                              "{finalTranscript}"
+                            </p>
+                          </div>
+                        )}
+                    </div>
+                  )}
               </div>
 
               <Separator className="my-6" />
