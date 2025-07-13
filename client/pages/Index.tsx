@@ -50,6 +50,11 @@ export default function Index() {
   const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
+    // Check for speech recognition support
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    setSpeechSupported(!!SpeechRecognition);
+
     if (isRecording && intervalRef.current === null) {
       intervalRef.current = setInterval(() => {
         setRecordingTime((prev) => prev + 1);
