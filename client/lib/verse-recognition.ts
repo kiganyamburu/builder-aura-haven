@@ -282,22 +282,59 @@ function calculateSequenceMatch(words1: string[], words2: string[]): number {
   return minLength > 0 ? (matches / minLength) * 100 : 0;
 }
 
-// Enhanced matching using keywords
+// Enhanced keyword matching with better preprocessing
 function calculateKeywordMatch(
   recognizedText: string,
   verse: (typeof verseDatabase)[0],
 ): number {
-  const recognizedWords = recognizedText
-    .toLowerCase()
-    .replace(/[^\w\s]/g, "")
-    .split(/\s+/);
-  const matchedKeywords = verse.keywords.filter((keyword) =>
-    recognizedWords.some(
-      (word) => word.includes(keyword) || keyword.includes(word),
-    ),
-  );
+  const processedText = preprocessText(recognizedText);
+  const recognizedWords = processedText
+    .split(/\s+/)
+    .filter((word) => word.length > 2);
 
-  return (matchedKeywords.length / verse.keywords.length) * 100;
+  let matchedKeywords = 0;
+  let totalKeywordScore = 0;
+
+  for (const keyword of verse.keywords) {
+    let bestMatch = 0;
+
+    for (const word of recognizedWords) {
+      // Exact match
+      if (word === keyword) {
+        bestMatch = 100;
+        break;
+      }
+      // Partial match
+      if (word.includes(keyword) || keyword.includes(word)) {
+        bestMatch = Math.max(bestMatch, 80);
+      }
+      // Fuzzy match for longer words
+      if (word.length > 3 && keyword.length > 3) {
+        const distance = levenshteinDistance(word, keyword);
+        if (distance <= 2) {
+          const similarity =
+            ((Math.max(word.length, keyword.length) - distance) /
+              Math.max(word.length, keyword.length)) *
+            60;
+          bestMatch = Math.max(bestMatch, similarity);
+        }
+      }
+    }
+
+    if (bestMatch > 40) {
+      // Only count meaningful matches
+      matchedKeywords++;
+      totalKeywordScore += bestMatch;
+    }
+  }
+
+  if (matchedKeywords === 0) return 0;
+
+  // Return weighted score based on match quality and quantity
+  const coverageScore = (matchedKeywords / verse.keywords.length) * 100;
+  const qualityScore = totalKeywordScore / matchedKeywords;
+
+  return coverageScore * 0.7 + qualityScore * 0.3;
 }
 
 // Speech recognition using Web Speech API
