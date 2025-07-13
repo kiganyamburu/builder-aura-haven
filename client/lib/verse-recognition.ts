@@ -437,27 +437,67 @@ export function recognizeVerseFromText(
   text: string,
   preferredTranslation: string = "NIV",
 ): VerseMatch | null {
-  let bestMatch: {
+  if (!text || text.trim().length < 3) return null;
+
+  const matches: Array<{
     verse: (typeof verseDatabase)[0];
     confidence: number;
-  } | null = null;
+    details: {
+      textSimilarity: number;
+      keywordMatch: number;
+      translationMatch: number;
+    };
+  }> = [];
 
+  // Try matching against all translations for better accuracy
   for (const verse of verseDatabase) {
-    const textSimilarity = calculateSimilarity(
-      text,
-      verse.text[preferredTranslation as keyof typeof verse.text] ||
-        verse.text.NIV,
-    );
+    let bestTranslationMatch = 0;
+    let bestTextSimilarity = 0;
+
+    // Test against all available translations
+    for (const [translation, verseText] of Object.entries(verse.text)) {
+      const textSimilarity = calculateSimilarity(text, verseText);
+      if (textSimilarity > bestTextSimilarity) {
+        bestTextSimilarity = textSimilarity;
+        bestTranslationMatch = translation === preferredTranslation ? 1.1 : 1.0;
+      }
+    }
 
     const keywordMatch = calculateKeywordMatch(text, verse);
-    const confidence = textSimilarity * 0.7 + keywordMatch * 0.3;
 
-    if (!bestMatch || confidence > bestMatch.confidence) {
-      bestMatch = { verse, confidence };
-    }
+    // Enhanced confidence calculation with translation preference
+    const confidence =
+      (bestTextSimilarity * 0.5 +
+        keywordMatch * 0.4 +
+        (bestTranslationMatch - 1) * 10) *
+      bestTranslationMatch;
+
+    matches.push({
+      verse,
+      confidence,
+      details: {
+        textSimilarity: bestTextSimilarity,
+        keywordMatch,
+        translationMatch: bestTranslationMatch,
+      },
+    });
   }
 
-  if (bestMatch && bestMatch.confidence > 15) {
+  // Sort by confidence and apply additional filters
+  matches.sort((a, b) => b.confidence - a.confidence);
+
+  const bestMatch = matches[0];
+  const secondBest = matches[1];
+
+  // Require minimum confidence and significant gap from second best
+  const minConfidence = 25;
+  const minGap = 10;
+
+  if (
+    bestMatch &&
+    bestMatch.confidence > minConfidence &&
+    (!secondBest || bestMatch.confidence - secondBest.confidence > minGap)
+  ) {
     return {
       reference: bestMatch.verse.reference,
       text:
@@ -466,7 +506,7 @@ export function recognizeVerseFromText(
         ] || bestMatch.verse.text.NIV,
       translation: preferredTranslation,
       context: bestMatch.verse.context,
-      confidence: Math.round(bestMatch.confidence),
+      confidence: Math.min(95, Math.round(bestMatch.confidence)), // Cap at 95%
     };
   }
 
