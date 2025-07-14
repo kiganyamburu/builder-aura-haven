@@ -51,7 +51,7 @@ VerseFinder is a modern web application that uses advanced speech recognition to
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/versefinder.git
+git clone https://github.com/kiganyamburu/builder-aura-haven.git
 cd versefinder
 
 # Install dependencies
@@ -279,8 +279,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**[⭐ Star this project](https://github.com/your-username/versefinder)** if you find it helpful!
+**[⭐ Star this project](https://github.com/kiganyamburu/builder-aura-haven)** if you find it helpful!
 
-Made with ❤️ for the faith community
+Made by Peter mburu  for the faith community
 
 </div>
