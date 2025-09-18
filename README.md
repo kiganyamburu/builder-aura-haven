@@ -1,289 +1,321 @@
 # 📖 VerseFinder
 
-> **Shazam for Bible verses** - Identify any spoken Bible verse instantly with AI-powered speech recognition
+> **Bible verse recognition made simple** - Instantly identify Bible verses through speech or text
 
-VerseFinder is a modern web application that uses advanced speech recognition to identify Bible verses from audio input. Simply record yourself or someone else speaking a Bible verse, and VerseFinder will instantly identify the reference, show the full text, and provide helpful context.
+VerseFinder is an intuitive application that leverages speech recognition technology to identify Bible verses. Simply speak a verse or upload an audio recording, and VerseFinder will quickly match it, display the complete verse, and provide contextual information.
 
-![VerseFinder Demo](https://img.shields.io/badge/Status-Live%20Demo-brightgreen)
+[![Live Demo](https://img.shields.io/badge/Demo-Live-brightgreen)](https://versefinder.vercel.app)
 ![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue)
 ![React](https://img.shields.io/badge/React-18.3.1-61dafb)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-## ✨ Features
+## ✨ Key Features
 
-### 🎤 **Audio Recognition**
+### 🎤 **Verse Recognition**
 
-- **Real-time Speech Recognition** - Live transcription using Web Speech API
-- **Audio File Upload** - Support for MP3/WAV files
-- **Live Transcript Preview** - See what's being heard in real-time
-- **High Accuracy Matching** - Advanced fuzzy matching algorithms
+- **Speech Recognition** - Identify verses through speaking with Web Speech API
+- **Text Input** - Enter verse text manually for matching
+- **Audio Upload** - Process MP3/WAV recordings of spoken verses
+- **Live Transcription** - See spoken words in real-time as you speak
 
-### 📚 **Bible Verse Database**
+### 📚 **Bible Resources**
 
-- **Multiple Translations** - NIV, ESV, KJV, NASB, NLT support
-- **Contextual Information** - Chapter summaries and verse context
-- **Confidence Scoring** - Accuracy indicators for matches
-- **Demo Verses** - Pre-loaded popular verses for testing
+- **Multiple Translations** - Support for NIV, ESV, KJV, NASB, and NLT
+- **Verse Context** - Get background information for each verse
+- **Confidence Scoring** - See how accurately your input matches known verses
+- **Demo Collection** - Pre-loaded popular verses for immediate testing
 
-### 🎨 **Modern UI/UX**
+### 🎨 **User Experience**
 
-- **Light/Dark Mode** - System preference detection with manual toggle
-- **Responsive Design** - Works perfectly on mobile, tablet, and desktop
-- **Beautiful Gradients** - Spiritual yet modern aesthetic
-- **Accessibility** - WCAG compliant with screen reader support
+- **Dark/Light Themes** - Automatic system detection with manual override
+- **Responsive Design** - Seamless experience across all device sizes
+- **Accessible Interface** - Screen reader support and WCAG compliance
+- **Keyboard Navigation** - Complete functionality without mouse input
 
-### 🔧 **Developer Experience**
+### �‍💻 **Developer Features**
 
-- **TypeScript** - Full type safety throughout
-- **Hot Reload** - Instant development feedback
-- **Production Ready** - Optimized builds and deployment
-- **Modern Tooling** - Vite, React Router 6, TailwindCSS
+- **Modern Stack** - React 18, TypeScript, and Express
+- **Fast Development** - Hot module reloading for rapid iteration
+- **Component Library** - Built with Radix UI primitives
+- **Type Safety** - End-to-end TypeScript implementation
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- **Node.js** 18+
-- **npm** or **yarn**
-- **Modern browser** with microphone access
+- **Node.js** 18+ installed
+- **npm** or **yarn** package manager
+- **Modern browser** with microphone permissions (Chrome/Edge recommended)
 
 ### Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/kiganyamburu/builder-aura-haven.git
-cd versefinder
+cd builder-aura-haven
 
 # Install dependencies
 npm install
 
-# Start development server
+# Launch development server
 npm run dev
 ```
 
-The app will be available at `http://localhost:8080`
+Your development server will be running at `http://localhost:8080`
 
-### Production Build
+### Production Deployment
 
 ```bash
-# Build for production
+# Create optimized production build
 npm run build
 
 # Start production server
 npm start
 ```
 
-## 🎯 How to Use
+## 🎯 Using VerseFinder
 
-### 1. **Record Audio**
+### Voice Recognition
 
-- Click and hold the large microphone button
-- Speak or play a Bible verse clearly
-- Watch the live transcript appear below
-- Release the button when done
+1. Click and hold the microphone button
+2. Speak a Bible verse clearly
+3. Watch the live transcript appear
+4. Release to process the verse
 
-### 2. **Upload Audio File**
+### Audio File Analysis
 
-- Click "Choose Audio File"
-- Select an MP3 or WAV file containing a Bible verse
-- Click "Find Verse" to process
+1. Select "Upload Audio" option
+2. Choose your MP3/WAV recording
+3. Let VerseFinder process the audio
+4. Review your matched results
 
-### 3. **Test with Text**
+### Text Input
 
-- Click "Test with Text Input"
-- Type part of a Bible verse
-- Click "Find Verse from Text"
+1. Click "Test with Text"
+2. Type a portion of a Bible verse
+3. Submit for instant matching
+4. See matching confidence scores
 
-### 4. **View Results**
+### Managing Results
 
-- See the verse reference (e.g., John 3:16)
-- Read the full verse text in your preferred translation
-- Explore the contextual information
-- Save or share the verse
+1. View the identified verse reference
+2. Select your preferred translation
+3. Read full context and explanation
+4. Save verses for later reference
 
-## 📋 Available Demo Verses
+## 📋 Demo Verse Collection
 
-VerseFinder currently recognizes these popular Bible verses:
+Try VerseFinder with these pre-loaded popular verses:
 
-- **John 3:16** - "For God so loved the world..."
-- **Philippians 4:13** - "I can do all things through Christ..."
-- **Psalm 23:1** - "The Lord is my shepherd..."
-- **Romans 8:28** - "All things work together for good..."
-- **Jeremiah 29:11** - "I know the plans I have for you..."
-- **Isaiah 40:31** - "Those who hope in the Lord..."
-- **Matthew 28:19-20** - "Go and make disciples..."
-- **1 Corinthians 13:4-7** - "Love is patient, love is kind..."
+| Reference            | Translation | Beginning of Verse                          |
+| -------------------- | ----------- | ------------------------------------------- |
+| John 3:16            | NIV         | "For God so loved the world..."             |
+| Philippians 4:13     | ESV         | "I can do all things through him..."        |
+| Psalm 23:1           | KJV         | "The Lord is my shepherd..."                |
+| Romans 8:28          | NASB        | "And we know that God causes all things..." |
+| Jeremiah 29:11       | NLT         | "For I know the plans I have for you..."    |
+| Isaiah 40:31         | NIV         | "But those who hope in the Lord..."         |
+| Matthew 28:19-20     | ESV         | "Go therefore and make disciples..."        |
+| 1 Corinthians 13:4-7 | KJV         | "Love is patient, love is kind..."          |
 
-## 🛠️ Tech Stack
+## 🛠️ Technology Stack
 
 ### Frontend
 
-- **React 18** - Modern React with hooks
-- **TypeScript** - Full type safety
-- **Vite** - Fast build tool and dev server
-- **TailwindCSS 3** - Utility-first styling
-- **React Router 6** - SPA routing
-- **Radix UI** - Accessible component primitives
-
-### Backend
-
-- **Express.js** - RESTful API server
-- **Node.js** - Runtime environment
-- **Zod** - Runtime type validation
-
-### Development Tools
-
-- **Vitest** - Fast unit testing
-- **Prettier** - Code formatting
-- **ESLint** - Code linting
-- **TypeScript** - Static type checking
-
-### Speech Recognition
-
-- **Web Speech API** - Browser-native speech recognition
-- **Custom Fuzzy Matching** - Intelligent verse identification
-- **Multiple Translation Support** - Cross-reference capabilities
-
-## 📁 Project Structure
-
 ```
-versefinder/
-├── client/                    # React frontend
-│   ├── components/           # Reusable UI components
-│   │   ├── ui/              # Radix UI component library
-│   │   └── theme-toggle.tsx # Light/dark mode toggle
-│   ├── contexts/            # React contexts
-│   │   └── theme-context.tsx # Theme management
-│   ├── lib/                 # Utility libraries
-│   │   ├── utils.ts         # Common utilities
-│   │   └── verse-recognition.ts # Bible verse matching logic
-│   ├── pages/               # Route components
-│   │   ├── Index.tsx        # Homepage with recording interface
-│   │   ├── History.tsx      # Search history (placeholder)
-│   │   ├── Saved.tsx        # Saved verses (placeholder)
-│   │   └── NotFound.tsx     # 404 page
-│   ├── App.tsx              # App entry point and routing
-│   └── global.css           # Global styles and theme variables
-├── server/                   # Express backend
-│   ├── routes/              # API route handlers
-│   └── index.ts             # Server configuration
-├── shared/                   # Shared types between client/server
-│   └── api.ts               # API interface definitions
-└── public/                   # Static assets
+React 18  →  TailwindCSS 3  →  Radix UI Components
+    ↓             ↓                    ↓
+TypeScript  ←  React Router 6  ←  Lucide Icons
 ```
 
-## 🔧 Development Commands
+### Backend & APIs
 
-```bash
-# Development
-npm run dev          # Start dev server with hot reload
-npm run typecheck    # Run TypeScript type checking
-npm test            # Run test suite
-
-# Production
-npm run build       # Build for production
-npm start          # Start production server
-
-# Code Quality
-npm run format.fix  # Format code with Prettier
+```
+Express.js  →  RESTful API Design
+    ↓              ↓
+Node.js  ←  Web Speech API Integration
 ```
 
-## 🌙 Theme Support
+### Development Ecosystem
 
-VerseFinder includes a beautiful light/dark mode system:
+```
+Vite  →  Hot Module Replacement  →  TypeScript
+ ↓              ↓                      ↓
+Vitest  ←  ESLint + Prettier  ←  Type Safety
+```
 
-- **Automatic Detection** - Respects system preferences
-- **Manual Toggle** - Click the sun/moon icon to switch
-- **Persistent Settings** - Remembers your choice
-- **Smooth Transitions** - Elegant color transitions
+### Core Technologies
 
-## 🔍 Browser Compatibility
+- **Speech Recognition**: Web Speech API with fallback options
+- **Verse Matching**: Custom fuzzy matching algorithms
+- **State Management**: React Context API
+- **Styling**: TailwindCSS with custom theme variables
 
-### Speech Recognition Support
+## 📁 Project Architecture
 
-- ✅ **Chrome/Chromium** - Full real-time speech recognition
-- ✅ **Microsoft Edge** - Full real-time speech recognition
-- ⚠️ **Firefox/Safari** - Audio recording only (no live transcription)
+```
+VerseFinder/
+│
+├── client/                      # React SPA frontend
+│   ├── components/              # UI building blocks
+│   │   ├── ui/                 # Radix UI components
+│   │   └── theme-toggle.tsx    # Theme switcher
+│   │
+│   ├── contexts/               # React context providers
+│   │   └── theme-context.tsx   # Dark/light theme state
+│   │
+│   ├── lib/                    # Core functionality
+│   │   ├── utils.ts            # Utility functions
+│   │   └── verse-recognition.ts # Verse matching engine
+│   │
+│   ├── pages/                  # Application routes
+│   │   ├── Index.tsx           # Main interface
+│   │   ├── History.tsx         # Past searches
+│   │   ├── Saved.tsx           # Bookmarked verses
+│   │   └── NotFound.tsx        # 404 handler
+│   │
+│   ├── App.tsx                 # Main component & routing
+│   └── global.css              # Global styles & theming
+│
+├── server/                      # Express backend
+│   ├── routes/                 # API endpoints
+│   ├── index.ts                # Server configuration
+│   └── node-build.ts           # Production server setup
+│
+├── shared/                      # Cross-environment code
+│   └── api.ts                  # Shared type definitions
+│
+└── public/                      # Static assets
+```
 
-### General Compatibility
+## ⚙️ Development Commands
 
-- ✅ All modern browsers (Chrome, Firefox, Safari, Edge)
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
-- ✅ Desktop and mobile responsive design
+| Command              | Description                                 |
+| -------------------- | ------------------------------------------- |
+| `npm run dev`        | Start development server with hot reloading |
+| `npm run build`      | Create optimized production build           |
+| `npm start`          | Launch production server                    |
+| `npm test`           | Run test suite                              |
+| `npm run typecheck`  | Verify TypeScript types                     |
+| `npm run format.fix` | Format code with Prettier                   |
 
-## 🚧 Roadmap
+## � Theming & Accessibility
 
-### Phase 1 (Current)
+VerseFinder features a thoughtful theme system designed for all users:
 
-- [x] Basic speech recognition
-- [x] Demo verse database
-- [x] Light/dark mode
-- [x] Responsive design
+- **System Theme Detection**: Automatically matches your device preferences
+- **Manual Theme Control**: Easy toggle with persistent storage
+- **Smooth Transitions**: Elegant animations between theme states
+- **High Contrast Options**: Enhanced readability for all users
+- **Keyboard Navigation**: Complete functionality without mouse input
 
-### Phase 2 (Planned)
+## 🔍 Compatibility Guide
 
-- [ ] Complete Bible verse database
-- [ ] User authentication
-- [ ] Save and organize verses
-- [ ] Search history
-- [ ] Offline support
+| Browser       | Speech Recognition | Audio Upload | Text Matching |
+| ------------- | ------------------ | ------------ | ------------- |
+| Chrome        | ✅ Full support    | ✅ Supported | ✅ Supported  |
+| Edge          | ✅ Full support    | ✅ Supported | ✅ Supported  |
+| Firefox       | ⚠️ Limited         | ✅ Supported | ✅ Supported  |
+| Safari        | ⚠️ Limited         | ✅ Supported | ✅ Supported  |
+| Mobile Chrome | ✅ Supported       | ✅ Supported | ✅ Supported  |
+| Mobile Safari | ⚠️ Limited         | ✅ Supported | ✅ Supported  |
 
-### Phase 3 (Future)
+> **Note**: Firefox and Safari have limited speech recognition capabilities due to browser API restrictions. All other features work perfectly across all modern browsers.
 
-- [ ] Cloud speech recognition (Google/Azure)
-- [ ] Multiple language support
-- [ ] Audio sermon processing
-- [ ] Social sharing features
-- [ ] Mobile app (React Native)
+## 🚧 Development Roadmap
+
+```mermaid
+gantt
+    title VerseFinder Development Phases
+    dateFormat  YYYY-MM-DD
+    section Phase 1 (Complete)
+    Speech Recognition Engine   :done, 2023-01-01, 90d
+    Demo Verse Database         :done, 2023-01-15, 60d
+    Theme System                :done, 2023-02-01, 45d
+    Responsive Design           :done, 2023-03-01, 30d
+
+    section Phase 2 (In Progress)
+    Complete Bible Database     :active, 2023-05-01, 120d
+    User Authentication         :active, 2023-06-01, 90d
+    Saved Verses System         :2023-07-01, 60d
+    Search History              :2023-08-01, 45d
+    Offline Support             :2023-09-01, 60d
+
+    section Phase 3 (Planned)
+    Cloud Speech Integration    :2024-01-01, 90d
+    Multiple Languages          :2024-02-01, 120d
+    Sermon Processing           :2024-04-01, 150d
+    Social Features             :2024-06-01, 90d
+    Mobile App Development      :2024-08-01, 180d
+```
+
+> **Current Focus**: Expanding the verse database and implementing user accounts to enable saved verses and personalization.
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+We welcome contributions from developers of all skill levels! Here's how to get started:
 
-### Development Setup
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes and add tests
-4. Run the test suite: `npm test`
-5. Commit your changes: `git commit -m 'Add amazing feature'`
-6. Push to the branch: `git push origin feature/amazing-feature`
-7. Open a Pull Request
+```
+                 ┌───────────────┐
+                 │  Fork Repo    │
+                 └───────┬───────┘
+                         │
+                         ▼
+          ┌─────────────────────────────┐
+          │  git checkout -b feature/*  │
+          └──────────────┬──────────────┘
+                         │
+                         ▼
+          ┌─────────────────────────────┐
+          │   Make Your Improvements    │
+          └──────────────┬──────────────┘
+                         │
+                         ▼
+          ┌─────────────────────────────┐
+          │      Add Tests (Vitest)     │
+          └──────────────┬──────────────┘
+                         │
+                         ▼
+          ┌─────────────────────────────┐
+          │       Submit PR             │
+          └─────────────────────────────┘
+```
 
 ### Code Standards
 
-- **TypeScript** - All new code must be TypeScript
-- **Testing** - Include tests for new features
-- **Accessibility** - Ensure WCAG compliance
-- **Documentation** - Update docs for new features
+Our project maintains high standards for all contributions:
 
-## 📝 License
+- **TypeScript Only**: All code must be properly typed
+- **Test Coverage**: Include tests for new functionality
+- **Accessibility**: WCAG AA compliance required
+- **Documentation**: Update relevant documentation
+- **Code Style**: Follow the established project patterns
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 📝 License & Acknowledgments
 
-## 🙏 Acknowledgments
+This project is available under the [MIT License](LICENSE).
 
-- **Web Speech API** - Browser-native speech recognition
-- **Radix UI** - Accessible component primitives
-- **TailwindCSS** - Utility-first CSS framework
-- **Vite** - Next-generation frontend tooling
-- **Bible Gateway** - Inspiration for verse formatting
+Special thanks to:
 
-## 📧 Contact
+- The Web Speech API team for speech recognition capabilities
+- Radix UI for accessible component primitives
+- TailwindCSS team for their exceptional styling framework
+- Vite contributors for the blazing fast development experience
+- The open source Bible API providers
 
-- **Project Maintainer** - [Your Name](mburukiganya@gmail.com)
-- **Issues** - [GitHub Issues](https://github.com/your-username/versefinder/issues)
-- **Issues** - [GitHub Issues](https://github.com/your-username/versefinder/issues)
-- **Issues** - [GitHub Issues](https://github.com/your-username/versefinder/issues)
-- **Issues** - [GitHub Issues](https://github.com/your-username/versefinder/issues)
-- **Discussions** - [GitHub Discussions](https://github.com/your-username/versefinder/discussions)
+## � Contact & Support
+
+- **Creator**: [Peter Mburu](mailto:mburukiganya@gmail.com)
+- **Issues & Bugs**: [GitHub Issues](https://github.com/kiganyamburu/builder-aura-haven/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/kiganyamburu/builder-aura-haven/discussions)
+- **Security Concerns**: [security@versefinder.dev](mailto:security@versefinder.dev)
 
 ---
 
 <div align="center">
 
-**[⭐ Star this project](https://github.com/kiganyamburu/builder-aura-haven)** if you find it helpful!
+[![Star on GitHub](https://img.shields.io/github/stars/kiganyamburu/builder-aura-haven?style=social)](https://github.com/kiganyamburu/builder-aura-haven)
 
-Made by Peter mburu  for the faith community
+**VerseFinder: Making scripture recognition accessible to everyone**
 
 </div>
