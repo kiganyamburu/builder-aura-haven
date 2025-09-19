@@ -9,6 +9,12 @@ VerseFinder is an intuitive application that leverages speech recognition techno
 ![React](https://img.shields.io/badge/React-18.3.1-61dafb)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+<!-- Add your frontend screenshot here -->
+
+![Frontend Screenshot](./public/frontend-screenshot.png)
+
+<!-- For best results, use an image with 16:9 aspect ratio and width between 800-1200px -->
+
 ## ✨ Key Features
 
 ### 🎤 **Verse Recognition**
